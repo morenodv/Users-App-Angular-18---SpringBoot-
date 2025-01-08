@@ -12,16 +12,16 @@ export class UserService {
       name: 'Jesus',
       lastname: 'Moreno',
       email: 'jesusmoreno@email.com',
-      username: 'Mm',
-      password: '12345',
+      username: 'Mmmmmmmmmmm',
+      password: '123456789',
     },
     {
       id: 2,
       name: 'Eduardo',
       lastname: 'Larios',
       email: 'eduardo@email.com',
-      username: 'Ee',
-      password: '123450',
+      username: 'Eeeeeeeee',
+      password: '123456789',
     },
   ];
 
