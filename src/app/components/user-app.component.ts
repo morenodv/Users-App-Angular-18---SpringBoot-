@@ -78,18 +78,20 @@ export class UserAppComponent implements OnInit {
         this.service.update(user).subscribe(userUpdated => {
           // Actualizacion: reemplaza el usuario existente manteniendo inmutabilidad
           this.users = this.users.map((u) => (u.id == userUpdated.id ? { ...userUpdated } : u));
+          // Actualiza la vista navegando con los nuevos datos
+          this.router.navigate(['/users'], {state : {users: this.users}});
 
         })
       } else {
         this.service.create(user).subscribe(userNew => {
           // Creacion: agrega el nuevo usuario con ID generado
           this.users = [...this.users, { ...userNew }];
+          // Actualiza la vista navegando con los nuevos datos
+          this.router.navigate(['/users'], {state : {users: this.users}});
 
         })
       }
       
-      // Actualiza la vista navegando con los nuevos datos
-      this.router.navigate(['/users']);
 
       // Notificacion de exito usando SweetAlert2
       Swal.fire({
@@ -121,14 +123,18 @@ export class UserAppComponent implements OnInit {
         confirmButtonText: 'Yes, delete it!',
       }).then((result) => {
         if (result.isConfirmed) {
-          // Elimina el usuario usando filter para mantener inmutabilidad
-          this.users = this.users.filter((user) => user.id != id);
-          
-          // Refresca la vista usando navegacion
-          // skipLocationChange evita que se registre en el historial
-          this.router.navigate(['/users/create'], {skipLocationChange: true}).then(() => {
-            this.router.navigate(['/users'], {state: {users: this.users}});
-          })
+          this.service.remove(id).subscribe(() => {
+            // Elimina el usuario usando filter para mantener inmutabilidad
+            this.users = this.users.filter((user) => user.id != id);
+            
+            // Refresca la vista usando navegacion
+            // skipLocationChange evita que se registre en el historial
+            this.router.navigate(['/users/create'], {skipLocationChange: true}).then(() => {
+              // this.router.navigate(['/users'])
+              this.router.navigate(['/users'], {state : {users: this.users}});
+            });
+          });
+
           
           // Notificacion de eliminacion exitosa
           Swal.fire({

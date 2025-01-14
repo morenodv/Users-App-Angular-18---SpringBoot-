@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { User } from '../../models/user';
-import { Router, RouterModule } from '@angular/router';
+import { Route, Router, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { SharingDataService } from '../../services/sharing-data.service';
 
@@ -12,7 +12,7 @@ import { SharingDataService } from '../../services/sharing-data.service';
   imports: [RouterModule],
   templateUrl: './user.component.html',
 })
-export class UserComponent {
+export class UserComponent implements OnInit{
   // Titulo que se muestra en la vista
   title: string = 'Estado usuarios';
 
@@ -26,14 +26,19 @@ export class UserComponent {
    */
   constructor(
     private sharingData: SharingDataService,
+    private service: UserService,
     private router: Router,
-    private service: UserService
   ) {
     if(this.router.getCurrentNavigation()?.extras.state){
-      this.users = this.router.getCurrentNavigation()?.extras.state!['users'];
-    } else {
-      this.service.findAll().subscribe(users => this.users = users);
+      this.users = this.router.getCurrentNavigation()?.extras.state!['users']
     }
+  }
+
+  ngOnInit(): void {
+    if(this.users == undefined || this.users.length == 0 || this.users == null){
+      this.service.findAll().subscribe(users => this.users = users);// se cambio metodo al onInit para que cada vez que se cree el componente se va buscar al backend
+    }
+
   }
 
   /**
@@ -53,6 +58,6 @@ export class UserComponent {
    * Pasa el usuario seleccionado en el estado de navegacion
    */
   onSelectedUser(user: User): void {
-    this.router.navigate(['/users/edit', user.id], {state: {user}});
+    this.router.navigate(['/users/edit', user.id]);
   }
 }
