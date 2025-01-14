@@ -89,7 +89,7 @@ export class UserAppComponent implements OnInit {
       }
       
       // Actualiza la vista navegando con los nuevos datos
-      this.router.navigate(['/users'], {state: {users: this.users}});
+      this.router.navigate(['/users']);
 
       // Notificacion de exito usando SweetAlert2
       Swal.fire({
