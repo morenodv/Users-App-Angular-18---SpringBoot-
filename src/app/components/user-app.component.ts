@@ -75,11 +75,17 @@ export class UserAppComponent implements OnInit {
   addUser() {
     this.sharingData.newUserEventEmitter.subscribe((user) => {
       if (user.id > 0) {
-        // Actualizacion: reemplaza el usuario existente manteniendo inmutabilidad
-        this.users = this.users.map((u) => (u.id == user.id ? { ...user } : u));
+        this.service.update(user).subscribe(userUpdated => {
+          // Actualizacion: reemplaza el usuario existente manteniendo inmutabilidad
+          this.users = this.users.map((u) => (u.id == userUpdated.id ? { ...userUpdated } : u));
+
+        })
       } else {
-        // Creacion: agrega el nuevo usuario con ID generado
-        this.users = [...this.users, { ...user, id: new Date().getTime() }];
+        this.service.create(user).subscribe(userNew => {
+          // Creacion: agrega el nuevo usuario con ID generado
+          this.users = [...this.users, { ...userNew }];
+
+        })
       }
       
       // Actualiza la vista navegando con los nuevos datos

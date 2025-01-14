@@ -3,6 +3,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { User } from '../../models/user';
 import { SharingDataService } from '../../services/sharing-data.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from '../../services/user.service';
 
 /**
  * Componente para el formulario de usuarios.
@@ -28,6 +29,7 @@ export class UserFormComponent implements OnInit{
   constructor(
     private route: ActivatedRoute,
     private sharingData: SharingDataService,
+    private service: UserService,
   ){
     this.user = new User();
     // if(this.router.getCurrentNavigation()?.extras.state){
@@ -36,11 +38,12 @@ export class UserFormComponent implements OnInit{
     // }
   }
   ngOnInit(): void {
-    this.sharingData.selectUserEventEmitter.subscribe(user => this.user = user)
+    this.sharingData.selectUserEventEmitter.subscribe(user => this.user = user) // ya no se emite el id
     this.route.paramMap.subscribe(params => {
       const id: number = +(params.get('id') || '0');
       if(id > 0 ){
-        this.sharingData.findUserByIdEventEmitter.emit(id);
+        this.sharingData.findUserByIdEventEmitter.emit(id); // ya no se emite el id
+        // this.service.findById(id).subscribe(user => this.user = user);
       }
     })
   }
