@@ -25,6 +25,7 @@ export class UserComponent implements OnInit{
    * Si no, los obtiene del servicio
    */
   constructor(
+    //borrar
     private sharingData: SharingDataService,
     private service: UserService,
     private router: Router,
