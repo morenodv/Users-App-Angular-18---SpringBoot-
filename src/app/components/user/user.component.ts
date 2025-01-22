@@ -48,7 +48,7 @@ export class UserComponent implements OnInit{
    */
   onRemoveUser(id: number): void {
     //se cambio el confirm por un modal
-    // const confirmRemove = confirm('Esta seguro que desea eliminar');
+    const confirmRemove = confirm('Esta seguro que desea eliminar');
     // if (confirmRemove) {
       this.sharingData.idUserEventEmitter.emit(id);
     // }
