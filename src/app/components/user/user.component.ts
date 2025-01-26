@@ -18,7 +18,7 @@ export class UserComponent implements OnInit{
 
   // Array que almacena la lista de usuarios
   users: User[] = [];
-
+  prueba: number = 0;
   /**
    * Constructor que inicializa el componente y carga los usuarios
    * Si hay usuarios en el estado de navegacion, los usa
